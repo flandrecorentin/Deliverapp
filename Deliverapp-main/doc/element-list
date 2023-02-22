@@ -1,0 +1,8 @@
+module:fr.deliverapp
+fr.deliverapp
+fr.deliverapp.controller
+fr.deliverapp.controller.command
+fr.deliverapp.model.data
+fr.deliverapp.model.objects
+fr.deliverapp.model.package_diagram
+fr.deliverapp.view

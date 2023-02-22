@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ Copyright 2015-2020 Peter-Josef Meisch (pj.meisch@sothawo.com)
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<?import com.sothawo.mapjfx.MapView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.skin.TabPaneSkin.TabContentRegion?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.control.TextField?>
+<BorderPane maxHeight="1040.0" maxWidth="1920.0" minHeight="720.0"
+            minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0"
+            style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="fr.deliverapp.controller.Controller">
+    <center>
+        <BorderPane>
+            <center>
+                <MapView fx:id="mapView" BorderPane.alignment="CENTER" />
+            </center>
+            <bottom>
+                <BorderPane>
+                    <left>
+                        <VBox fx:id = "VBoxCreationLivraison" visible="false" managed="false">
+                            <Text fx:id= "TitreVBoxAjoutLivraison"/>
+                            <Label fx:id="texteSelectionPointLivraison" text="Sélectionner sur la carte le point de livraison "/>
+                            <Label fx:id="texteSelectionPlageHoraire" text="Sélectionner une plage horaire" />
+                            <ComboBox fx:id="comboboxHoraire" styleClass="buttonDefault"
+                                      promptText="Selectionner horaire">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="8h - 9h"/>
+                                        <String fx:value="9h - 10h"/>
+                                        <String fx:value="10h - 11h"/>
+                                        <String fx:value="11h - 12h"/>
+                                    </FXCollections>
+                                </items>
+                            </ComboBox>
+                            <HBox>
+                                <Button fx:id="buttonValiderAjoutLivraison" onAction="#validerAjoutLivraison" styleClass="buttonDefault" text="V"/>
+                                <Button fx:id="buttonAnnulerAjoutLivraison" onAction="#annulerAjoutLivraison" styleClass="buttonDefault"
+                                        text="X"/>
+                            </HBox>
+                        </VBox>
+                    </left>
+                    <right>
+                        <BorderPane fx:id="BorderPaneInfoLivreur" visible="false" managed = "false">
+                            <top>
+                                <Text fx:id="labelTournee" styleClass="text">
+                                </Text>
+                                <Text fx:id="labelNombreLivraisonLivreur" styleClass="header2"/>
+                            </top>
+                            <center>
+                                <Text fx:id="labelInfos" styleClass="text"
+                                       text=" "/>
+
+                            </center>
+                            <bottom>
+                                <BorderPane>
+                                    <left>
+                                        <Text fx:id="labelLivraisonsImpossibles" styleClass="text"/>
+                                    </left>
+                                    <right>
+
+                                    </right>
+                                </BorderPane>
+                            </bottom>
+                        </BorderPane>
+                    </right>
+                    <center>
+                        <HBox alignment="BOTTOM_CENTER">
+                            <Button fx:id="boutonGenerationFeuilleDeRoute" text="Générer Feuille De Route" onAction="#sauvergarderFeuilleDeRoute" styleClass="buttonDefault" visible="false"/>
+                            <Label fx:id="textGreenFeuilleRoute" text="La feuille de route a bien été générée !" visible="false" styleClass="greenText"/>
+                        </HBox>
+                    </center>
+                </BorderPane>
+            </bottom>
+        </BorderPane>
+
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER" styleClass="header-section">
+            <children>
+                <Label fx:id="labelCenter" text="Center: "/>
+                <Label fx:id="labelExtent" text="Extent: " />
+                <Label fx:id="labelZoom" text="Zoom: " />
+                <Label fx:id="labelEvent" text="Event: " />
+            </children>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </HBox>
+    </bottom>
+   <left>
+      <VBox prefWidth="300" style="-fx-alignment: center ; -fx-padding: 10 ;">
+
+          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mes livreurs" styleClass="header1"/>
+             <TableView fx:id="tableLivreur" maxWidth="300" minHeight="150" maxHeight="150">
+                 <columns>
+                     <TableColumn fx:id="colonneLivreur" text="" />
+                 </columns>
+             </TableView>
+          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Livraisons prévues" styleClass="header1">
+              <font>
+                  <Font name="System Bold" size="15.0" />
+              </font>
+          </Text>
+          <TableView fx:id="tableLivraison" maxWidth="300" minHeight="250">
+                     <columns>
+                         <TableColumn fx:id="colonneLivraison" text="   " />
+                     </columns>
+          </TableView>
+          <Button fx:id="boutonAjouterLivraison" text="Ajouter une livraison" onAction="#ajouterLivraison" visible="false" managed = "false" styleClass="buttonDefault"/>
+          <Button fx:id="boutonAjouterLivraisonApresCalcul" text="Ajouter une livraison post-calcul" onAction="#ajouterLivraisonApresCalcul" visible="false" styleClass="buttonDefault"/>
+          <Button fx:id="boutonSupprimerLivraisonApresCalcul" text="Supprimer une livraison post-calcul" onAction="#supprimerLivraisonApresCalcul" visible="false" styleClass="buttonDefault"/>
+          <Text fx:id="successText" fill="green" layoutX="500.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="la liste est sauvegardée avec succes" visible="false" wrappingWidth="171.0" managed="false">
+              <font>
+                  <Font size="14.0" />
+              </font>
+          </Text>
+          <Text fx:id="errorTourneeIntrouvable" fill="RED" layoutX="214.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Veuillez Calculer La Tournee Avant de génerer la Feuille de Route" visible="false" wrappingWidth="171.0" managed="false">
+              <font>
+                  <Font size="14.0" />
+              </font>
+          </Text>
+       </VBox>
+   </left>
+    <top>
+        <BorderPane>
+            <Text fx:id="errorText" fill="RED" layoutX="500.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="le fichier choisi est invalide " visible="false" wrappingWidth="171.0">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </Text>
+            <right>
+                <HBox >
+                    <Button fx:id="boutonCalculerTournee" text="Calculer une tournée" onAction="#calculerTournee" styleClass="buttonDefault" visible="false"/>
+                    <Button fx:id="boutonChangerCarte" text="Changer de carte" onAction="#changerCarte" styleClass="buttonDefault"/>
+                </HBox>
+            </right>
+            <center>
+                <HBox alignment="BASELINE_CENTER">
+                    <Button fx:id="boutonSauvegarderLivraisons" text="Sauvegarder toutes les livraisons" visible="false" onAction="#choisirCheminSauvergardeLivraisons" styleClass="buttonDefault"/>
+                    <Label fx:id="textGreen" text="Vos livraisons ont bien été sauvegardées !" visible="false" styleClass="greenText"/>
+                </HBox>
+                </center>
+            <left>
+                <HBox>
+                    <Button onAction="#undo" text="Revenir" styleClass="buttonDefault"/>
+                    <Button onAction="#redo" text="Refaire" styleClass="buttonDefault"/>
+                    <Button fx:id="boutonRevenirAvantCalculTournee" text="Retour avant le calcul de tournée" onAction="#revenirAvantCalculTournee" styleClass="buttonDefault" visible="false" managed="false"/>
+                </HBox>
+
+            </left>
+        </BorderPane>
+    </top>
+</BorderPane>
